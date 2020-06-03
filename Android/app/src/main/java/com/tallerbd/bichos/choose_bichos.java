@@ -35,7 +35,7 @@ public class choose_bichos extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new bichoAdapter(bichos, this);
+        mAdapter = new bichoAdapter(bichos, this, 1);
         recyclerView.setAdapter(mAdapter);
     }
 }

@@ -40,7 +40,7 @@
         app:layout_constraintTop_toTopOf="@+id/appBarLayout">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/chooseUsuariosCard"
+            android:id="@+id/chooseCard"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
@@ -56,18 +56,18 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/chooseUsuariosLayout"
+                android:id="@+id/chooseLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/UsuariosTitleLayout"
+                    android:id="@+id/chooseTitleLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/UsuariosTitleText"
+                        android:id="@+id/chooseTitleText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -83,16 +83,25 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/usuariosRecyclerView"
+                    android:id="@+id/chooseBichoRV"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    tools:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/choosePlayerRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:visibility="gone">
+
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/chooseCard"
+            android:id="@+id/chooseBtnCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -108,15 +117,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chooseUsuariosCard">
+            app:layout_constraintTop_toBottomOf="@+id/chooseCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/chooseLayout"
+                android:id="@+id/chooseBtnLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/chooseText"
+                    android:id="@+id/chooseBtnText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"

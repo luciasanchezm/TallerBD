@@ -14,11 +14,13 @@ import java.util.ArrayList;
 public class usuarioAdapter extends RecyclerView.Adapter<usuarioAdapter.MyViewHolder> {
     private ArrayList<Usuario> mDataset;
     private Context context;
+    private int step;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public usuarioAdapter(ArrayList<Usuario> myDataset, Context context) {
+    public usuarioAdapter(ArrayList<Usuario> myDataset, Context context, int step) {
         mDataset = myDataset;
         this.context = context;
+        this.step = step;
     }
 
     // Create new views (invoked by the layout manager)
@@ -27,7 +29,7 @@ public class usuarioAdapter extends RecyclerView.Adapter<usuarioAdapter.MyViewHo
         // create a new view
         ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_layout, parent, false);
-        MyViewHolder vh = new MyViewHolder(v, context);
+        MyViewHolder vh = new MyViewHolder(v, context, step);
         return vh;
     }
 
@@ -54,12 +56,14 @@ public class usuarioAdapter extends RecyclerView.Adapter<usuarioAdapter.MyViewHo
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         Context context;
-        // each data item is just a string in this case
         public View itemView;
-        public MyViewHolder(View v, final Context context) {
+        public int step;
+
+        public MyViewHolder(View v, final Context context, int step) {
             super(v);
             itemView = v;
             this.context = context;
+            this.step = step;
         }
 
         public void bindItems(final Usuario usuario) {
@@ -69,13 +73,13 @@ public class usuarioAdapter extends RecyclerView.Adapter<usuarioAdapter.MyViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(ConnectionSQL.getSelectedUsuario() == usuario) {
+                    if(ConnectionSQL.getSelectedUsuario(step) == usuario) {
                         v.setBackgroundColor(context.getResources().getColor(R.color.White));
-                        ConnectionSQL.setSelectedBicho(null);
+                        ConnectionSQL.setSelectedUsuario(null, step);
                     }
-                    else if(ConnectionSQL.getSelectedUsuario() == null) {
+                    else if(ConnectionSQL.getSelectedUsuario(step) == null) {
                         v.setBackgroundColor(context.getResources().getColor(R.color.PrimaryColor));
-                        ConnectionSQL.setSelectedUsuario(usuario);
+                        ConnectionSQL.setSelectedUsuario(usuario, step);
                     }
                 }
             });

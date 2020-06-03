@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         CardView recolectarCard = findViewById(R.id.recolectarCard);
         recolectarCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(context, choose_bichos.class);
+                Intent intent = new Intent(context, choose_player.class);
+                intent.putExtra("Process", "Recolectar");
                 startActivity(intent);
             }
         });
@@ -46,6 +47,16 @@ public class MainActivity extends AppCompatActivity {
         combatirCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(context, choose_player.class);
+                intent.putExtra("Process", "Combatir");
+                startActivity(intent);
+            }
+        });
+
+        CardView intercambiarCard = findViewById(R.id.intercambiarCard);
+        intercambiarCard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(context, choose_player.class);
+                intent.putExtra("Process", "Intercambiar");
                 startActivity(intent);
             }
         });

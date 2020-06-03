@@ -14,11 +14,13 @@ import java.util.ArrayList;
 public class bichoAdapter extends RecyclerView.Adapter<bichoAdapter.MyViewHolder> {
     private ArrayList<Bicho> mDataset;
     private Context context;
+    private int step;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public bichoAdapter(ArrayList<Bicho> myDataset, Context context) {
+    public bichoAdapter(ArrayList<Bicho> myDataset, Context context, int step) {
         mDataset = myDataset;
         this.context = context;
+        this.step = step;
     }
 
     // Create new views (invoked by the layout manager)
@@ -36,7 +38,7 @@ public class bichoAdapter extends RecyclerView.Adapter<bichoAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.bindItems(mDataset.get(position));
+        holder.bindItems(mDataset.get(position), step);
 
     }
 
@@ -62,20 +64,20 @@ public class bichoAdapter extends RecyclerView.Adapter<bichoAdapter.MyViewHolder
             this.context = context;
         }
 
-        public void bindItems(final Bicho bicho) {
+        public void bindItems(final Bicho bicho, final int step) {
             TextView textView = itemView.findViewById(R.id.itemText);
             textView.setText(bicho.name);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(ConnectionSQL.getSelectedBicho() == bicho) {
+                    if(ConnectionSQL.getSelectedBicho(step) == bicho) {
                         v.setBackgroundColor(context.getResources().getColor(R.color.White));
-                        ConnectionSQL.setSelectedBicho(null);
+                        ConnectionSQL.setSelectedBicho(null, step);
                     }
-                    else if(ConnectionSQL.getSelectedBicho() == null) {
+                    else if(ConnectionSQL.getSelectedBicho(step) == null) {
                         v.setBackgroundColor(context.getResources().getColor(R.color.PrimaryColor));
-                        ConnectionSQL.setSelectedBicho(bicho);
+                        ConnectionSQL.setSelectedBicho(bicho, step);
                     }
                 }
             });
