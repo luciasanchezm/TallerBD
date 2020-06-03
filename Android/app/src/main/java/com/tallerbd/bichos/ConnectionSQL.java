@@ -110,10 +110,12 @@ public class ConnectionSQL {
             return null;
         } else {
             try {
-                String query = "SELECT * FROM ";
+                String query = "SELECT * FROM GetBichosUsuario(" + (choose_player.step == 1? selectedUsuario1.id : selectedUsuario2.id) + ")";
                 Statement statement = connection.createStatement();
                 ResultSet rs = statement.executeQuery(query);
+                Log.d("Lu", "Query: " + query);
                 while(rs.next()) {
+                    Log.d("Lu", "bicho: " + rs.getString("Bicho"));
                     bichos.add(
                             new Bicho(
                                     rs.getInt("ID"),
@@ -127,6 +129,7 @@ public class ConnectionSQL {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
+                Log.d("Connection", "Error: " + e.getMessage());
             }
 
         }
@@ -170,14 +173,20 @@ public class ConnectionSQL {
         } else {
             try {
                 String query = "EXECUTE Recolectar " + selectedUsuario1.id + ", " + selectedBicho1.id;
+                Log.d("Lu", "Query: " + query);
                 Statement statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery(query);
+//                ResultSet rs = statement.executeQuery(query);
+//                if(rs.next())
+//                    Log.d("Lu" , "id: " + rs.getString("ID"));
+                statement.execute(query);
                 Log.d("Connection", "Recolectado");
             } catch (SQLException e) {
                 e.printStackTrace();
+                Log.d("Connection", "Error: " + e.getMessage());
                 return false;
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.d("Connection", "Error: " + e.getMessage());
                 return false;
             }
 
@@ -194,29 +203,32 @@ public class ConnectionSQL {
             try {
                 String query = "EXECUTE Combatir " + selectedUsuario1.id + ", " + selectedUsuario2.id;
                 Statement statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery(query);
+                statement.execute(query);
                 Log.d("Connection", "Combatieron");
 
                 // get combate id = size de la table
                 query = "SELECT COUNT(combate_id) AS 'Lenght' FROM Combates ";
                 statement = connection.createStatement();
-                rs = statement.executeQuery(query);
+                ResultSet rs = statement.executeQuery(query);
+                rs.next();
                 int combate = rs.getInt("Lenght");
 
                 query = "INSERT INTO Rondas " +
                         "(combate_id, bicho_uno, bicho_dos, " +
                         "ataque_uno, ataque_dos, " +
                         "nivel_daño_uno, nivel_daño_dos) VALUES " +
-                        "(" + combate + selectedBicho1.id + ", " + selectedBicho2.id +
+                        "(" + combate + ", " + selectedBicho1.id + ", " + selectedBicho2.id +
                         ", 1, 2, 35, 20)";
                 statement = connection.createStatement();
-                rs = statement.executeQuery(query);
+                statement.execute(query);
                 Log.d("Connection", "Combatieron");
             } catch (SQLException e) {
                 e.printStackTrace();
+                Log.d("Connection", e.getMessage());
                 return false;
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.d("Connection", e.getMessage());
                 return false;
             }
 
@@ -233,13 +245,15 @@ public class ConnectionSQL {
             try {
                 String query = "EXECUTE Intercambiar " + selectedUsuario1.id + ", " + selectedUsuario2.id + ", " + selectedBicho1.id + ", " + selectedBicho2.id;
                 Statement statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery(query);
+                statement.execute(query);
                 Log.d("Connection", "Intercambiado");
             } catch (SQLException e) {
+                Log.d("Connection", e.getMessage());
                 e.printStackTrace();
                 return false;
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.d("Connection", e.getMessage());
                 return false;
             }
 
@@ -248,36 +262,42 @@ public class ConnectionSQL {
     }
 
     public static void setSelectedBicho(Bicho bicho, int num) {
-        Log.d("Lu", " setSelectedBicho step: " + num);
-        if(num == 1)
+        Log.d("Lu", " setSelectedBicho step: " + choose_player.step + " - " + num);
+        if(choose_player.step == 1)
             selectedBicho1 = bicho;
         else
             selectedBicho2 = bicho;
     }
 
     public static Bicho getSelectedBicho(int num) {
-        Log.d("Lu", "getSelectedBicho step: " + num);
-        if(num == 1)
+        Log.d("Lu", "getSelectedBicho step: " + choose_player.step + " - " + num);
+        if(choose_player.step == 1)
             return selectedBicho1;
         else
             return selectedBicho2;
     }
 
     public static void setSelectedUsuario(Usuario usuario, int num) {
-        Log.d("Lu", " setSelectedUsuario step: " + num);
-        if(num == 1)
+        Log.d("Lu", " setSelectedUsuario step: " + choose_player.step + " - " + num);
+        if(choose_player.step == 1)
             selectedUsuario1 = usuario;
         else
             selectedUsuario2 = usuario;
     }
 
     public static Usuario getSelectedUsuario(int num) {
-        Log.d("Lu", "getSelectedUsuario step: " + num);
-        if(num == 1)
+        Log.d("Lu", "getSelectedUsuario step: " + choose_player.step + " - " + num);
+        if(choose_player.step == 1)
             return selectedUsuario1;
         else
             return selectedUsuario2;
     }
 
-    public static void Close() throws SQLException { connection.close(); }
+    public static void Close() throws SQLException {
+        selectedUsuario1 = null;
+        selectedUsuario2 = null;
+        selectedBicho1 = null;
+        selectedBicho2 = null;
+        connection.close();
+    }
 }

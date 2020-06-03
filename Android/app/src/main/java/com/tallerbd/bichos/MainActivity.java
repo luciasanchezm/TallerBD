@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ConnectionSQL.connect();
+        choose_player.step = 1;
 
         final Context context = this;
 
